@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>结果！！！深圳市中考普通高中志愿填报建议</title>
+</head>
+<body>
+	<script type="text/javascript" src="highschool.json"></script>
+	<script type="text/javascript" src="middleschool.json"></script>
+	<script type="text/javascript">
+		const districts = [402,92,40,37,32,7,101,40,19,27,7];
+		function getDudeInfo() {
+			let url = new URLSearchParams(window.location.search);
+			// dude.district = Number(url.get('school').split('-')[0]);
+			// dude.school = Number(url.get('school').split('-')[1]);
+			// dude.schoolPlace = dude.school * 400 / districts[dude.district];
+			dude.firstScore = Number(url.get('first-score'));
+			dude.firstPlace = Number(url.get('first-place'));
+			dude.secondScore = Number(url.get('second-score'));
+			dude.secondPlace = Number(url.get('second-place'));
+			dude.thirdScore = Number(url.get('third-score'));
+			dude.thirdPlace = Number(url.get('third-place'));
+			dude.pe = Number(url.get('pe'));
+			dude.people = Number(url.get('people'));
+			dude.hj = Number(url.get('hj')) // 1 - sz, 0 - nonsz
+			dude.sl = Number(url.get('sl')); // 1 - gl, 2 - sl
+			dude.estscore = Number(url.get('estscore'));
+			dude.xinYi = Number(url.get('xinyi'));
+			dude.scoreMean = (dude.firstScore + dude.secondScore + dude.thirdScore) / 3;
+			dude.placeMean = (dude.firstPlace + dude.secondPlace + dude.thirdPlace) / 3;
+			dude.placeStandardDev = Math.sqrt((Math.pow((dude.firstPlace - dude.placeMean), 2) + Math.pow((dude.secondPlace - dude.placeMean), 2) + Math.pow((dude.thirdPlace - dude.placeMean), 2)) / 3);
+			dude.avgPlacing = dude.placeMean / dude.people;
+			// dude.avgSchoolPlacing = dude.avgPlacing * dude.schoolPlace;
+		}
+		function estimateScore(esti) {
+			let peak = 5 + 20 * (dude.avgPlacing * 0.6 + 0.5 * 0.4);
+			if(esti) { // estimation provided
+				dude.ESTIMATION = Math.round(0.5 * esti + 0.5 * (dude.scoreMean + dude.pe + peak));
+			} else { // estimation not provided
+				dude.ESTIMATION = Math.round(dude.scoreMean + dude.pe + peak);
+			}
+		}
+		function estimateHighSchool(hj, sl) {
+			const peaks = [15, 10, 5, 0, -5, -15, -30, -60];
+			let turblence = dude.placeStandardDev / 10;
+			dude.APPLIST = [];
+			for(let z = 0; z < 8; z++) {
+				let scoreLine = Math.round(dude.ESTIMATION + peaks[z] * turblence);
+				for(let x = 0; x < high.length; x++) {
+					if(Number(high[x].ac2022) > scoreLine) continue;
+					else {
+						if(z == 0) dude.APPLIST.push([high[x], high[x + 1], high[x + 2], high[x + 3]]);
+						else { // make sure duplicate removed unless its the top four
+							dude.APPLIST[z] = [];
+							while(dude.APPLIST[z].length < 4 && x < high.length) {
+								if(dude.APPLIST[z - 1].indexOf(high[x]) == -1 || x < 4) dude.APPLIST[z].push(high[x]);
+								x++;
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
+		window.onload = function() {
+			window.dude = {};
+			getDudeInfo();
+			estimateScore(dude.estscore);
+			estimateHighSchool(dude.hj, dude.sl);
+		};
+	</script>
+</body>
+</html>

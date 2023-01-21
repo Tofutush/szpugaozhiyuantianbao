@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>填表！！！深圳市中考普通高中志愿填报建议</title>
+	<style>
+		.star {
+			color: red;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<p>以下项目打星号的为必填，请核实信息，以免造成不必要的误差。</p>
+	<form method="get" action="dude.html">
+		<p>学校名称：<select id="school" name="school">
+			<!--<option value="nice">a nice school</option>
+			<option value="normal">a normal school</option>
+			<option value="lame">a lame school</option>
+			<option value="new">a new school</option>-->
+		</select></p>
+		<p><sup class="star">*</sup>户籍：<select name="hj">
+			<option value="1">深户（AC类）</option>
+			<option value="0">非深户（D类）</option>
+		</select></p>
+		<p><sup class="star">*</sup>是否愿意报名私立学校：<select name="sl">
+			<option value="1">不，我只上公立</option>
+			<option value="0">老铁没毛病</option>
+		</select></p>
+		<p><sup class="star">*</sup>三次模拟考试成绩（若还没考完全部三次，就拿最近的大规模考试来凑）</p>
+		<p>一模成绩：<input name="first-score" type="number"/>
+		一模全校排名：<input name="first-place" type="number"/></p>
+		<p>二模成绩：<input name="second-score" type="number"/>
+		二模全校排名：<input name="second-place" type="number"/></p>
+		<p>三模成绩：<input name="third-score" type="number"/>
+		三模全校排名：<input name="third-place" type="number"/></p>
+		<p><sup class="star">*</sup>年级参与中考总人数：<input name="people" type="number"/></p>
+		<p>体育中考成绩（若还没考就拿最近成绩或者预估成绩凑）（模考成绩已经包括体育就别填）：<input name="pe" type="number"/></p>
+		<p>预估中考成绩（仅供参考，但拜托别瞎估）：<input name="estscore" type="number"/></p>
+		<p>自己心仪的高中（仅供参考，但拜托别瞎填）：<select id="xinyi" name="xinyi"></select></p>
+		<button type="submit">确认</button>
+	</form>
+	<script type="text/javascript" src="middleschool.json"></script>
+	<script type="text/javascript" src="highschool.json"></script>
+	<script type="text/javascript">
+		function addSchoolOptions() {
+			const districts = [null,'宝安区','南山区','福田区','罗湖区','盐田区','龙岗区','龙华区','坪山区','光明区','大鹏新区'];
+			let schoolSelect = document.getElementById('school');
+			for(let z = 1; z <= 10; z++) {
+				let optgroup = elt('optgroup', {label: districts[z]});
+				let schools = midd[z];
+				for(let x = 0; x < schools.length; x++) {
+					let s = schools[x];
+					optgroup.appendChild(elt('option', {value: s.place + '-' + s.num}, s.name));
+				}
+				schoolSelect.appendChild(optgroup);
+			}
+		}
+		function addXinYiOptions() {
+			let xinYi = document.getElementById('xinyi');
+			for(let z = 0; z < high.length; z++) {
+				xinYi.appendChild(elt('option', {value: high[z].rank}, high[z].name));
+			};
+		}
+		window.onload = function() {
+			addSchoolOptions();
+			addXinYiOptions();
+		};
+		function elt(type,props,...children){let dom=document.createElement(type);if(props)Object.assign(dom,props);for(let child of children){if(typeof child!="string")dom.appendChild(child);else dom.appendChild(document.createTextNode(child));}return(dom);}
+	</script>
+</body>
+</html>
