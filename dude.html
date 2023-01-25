@@ -4,10 +4,25 @@
 	<title>结果！！！深圳市中考普通高中志愿填报建议</title>
 </head>
 <body>
+	<div id="results"></div>
+	<div id="disclaimer">
+		<h1>免责声明</h1>
+		<p>朋友们，我（Tofutush / 娄庄钉子户）做的这个<b>深圳市中考普通高中志愿填报建议</b>，就像名字里说的一样，是<b>建议</b>！此程序并不完美，也不能完全代替填报中考志愿的过程！也就是怎么滴，朋友们要是因为采取这些建议而导致中考滑档、咬到舌头、鞋带松开等难以人为预测的意外发生，本人（Tofutush / 娄庄钉子户）和主持网页的平台 GitHub Pages 都概不负责。</p>
+		<p>填报中考志愿是一项很重要且难度很大的任务！当年我填志愿时死了很多脑细胞，挺可惜的（虽然我在写这个程序时也死了很多脑细胞呵呵呵）……此程序目的在于给朋友们指明方向，在填志愿上能尽量避免踩坑！</p>
+		<p>面临中考的朋友们不用紧张！</p>
+		<ul>
+			<li><b>冲高要敢冲：中考分数普遍比模考高。</b>因为模考试卷一般是学校老师吃着盒饭加着班在夜色的笼罩下对着冰冷的电脑屏幕敲出来的，所以会比较<b>离谱</b>和<b>反人类</b>。但中考试卷不会！它是好几个老师经过一个月的时间打磨出来的，会更加科学严谨！</li>
+			<li><b>保底要保稳。</b>当然这不是让所有人都去报博伦，但是滑档就是这么产生的……</li>
+			<li><b>考好了别骄傲，考差了没关系。</b>反正到了高中都要被虐一顿，到哪儿不一样？</li>
+		</ul>
+	</div>
 	<script type="text/javascript" src="highschool.json"></script>
+	<script type="text/javascript" src="highschoolgl.json"></script>
 	<script type="text/javascript" src="middleschool.json"></script>
 	<script type="text/javascript">
 		const districts = [402,92,40,37,32,7,101,40,19,27,7];
+		const numberToCharacter = ['一', '二', '三', '四', '五', '六', '七', '八'];
+		const temporaryNewSchool = ['new school', 'another new school'];
 		function getDudeInfo() {
 			let url = new URLSearchParams(window.location.search);
 			// dude.district = Number(url.get('school').split('-')[0]);
@@ -40,33 +55,121 @@
 			}
 		}
 		function estimateHighSchool(hj, sl) {
-			const peaks = [15, 10, 5, 0, -5, -15, -30, -60];
+			dude.peaks = [15, 10, 5, 0, -5, -15, -30, -60];
 			let turblence = dude.placeStandardDev / 10;
 			dude.APPLIST = [];
-			for(let z = 0; z < 8; z++) {
-				let scoreLine = Math.round(dude.ESTIMATION + peaks[z] * turblence);
-				for(let x = 0; x < high.length; x++) {
-					if(Number(high[x].ac2022) > scoreLine) continue;
-					else {
-						if(z == 0) dude.APPLIST.push([high[x], high[x + 1], high[x + 2], high[x + 3]]);
-						else { // make sure duplicate removed unless its the top four
-							dude.APPLIST[z] = [];
-							while(dude.APPLIST[z].length < 4 && x < high.length) {
-								if(dude.APPLIST[z - 1].indexOf(high[x]) == -1 || x < 4) dude.APPLIST[z].push(high[x]);
-								x++;
+			let starterOnZLoop = 0, starterOnXLoop = 0;
+			if(dude.ESTIMATION - 5 * turblence > Number(highgl[3][hj ? 'ac2022' : 'd2022'])) { // if score is really high
+				dude.APPLIST = [[highgl[0]], [highgl[1]], [highgl[2]], [highgl[3]]]; // first four schools
+				starterOnZLoop = 4; // start on fifth one
+				starterOnXLoop = 4; // start on fifth school
+			}
+			if(sl) { // 只上公立
+				if(dude.ESTIMATION - 60 * turblence < 440) { // score is too low
+					dude.peaks = [50, 45, 40, 35, 30, 0, 0, 0];
+					turblence = 1; // dang low we dont even need this anymore
+					dude.slsuggest = 1;
+				}
+				// okay this is the actual loop that fills dude.APPLIST
+				// starterOnZLoop and starterOnXLoop are both used for score too high scenario, to skip the first four
+				for(let z = starterOnZLoop; z < 8; z++) {
+					let scoreLine = dude.ESTIMATION + dude.peaks[z] * turblence;
+					dude.APPLIST.push([]);
+					for(let x = starterOnXLoop; x < highgl.length + 50; x++) {
+						if(highgl[x]) {
+							if(Number(highgl[x][hj ? 'ac2022' : 'd2022']) > scoreLine) continue; // keep continuing until we find a school below the scoreLine
+							else { // once we do, we fill four slots
+								if(z == 0) dude.APPLIST[z] = [ // if its the first one (no z - 1 anymore) then just put four in there
+										highgl[x] || temporaryNewSchool,
+										highgl[x + 1] || temporaryNewSchool,
+										highgl[x + 2] || temporaryNewSchool,
+										highgl[x + 3] || temporaryNewSchool
+									];
+								else { // if not, then check for duplicates unless the top four schools
+									while(dude.APPLIST[z].length < 4) {
+										if(highgl[x]) {
+											if(dude.APPLIST[z - 1].indexOf(highgl[x]) == -1 || x < 4) dude.APPLIST[z].push(highgl[x]);
+											x++;
+										} else {
+											dude.APPLIST[z].push(temporaryNewSchool);
+											break; // once we have temporary new school in there we dont want more
+										}
+									}
+								}
 							}
-						}
+						} else dude.APPLIST[z].push(temporaryNewSchool);
+						starterOnXLoop = x + 1; // start from where we left off
+						break;
+					}
+				}
+			} else { // 上私立
+				if(dude.ESTIMATION - 60 * turblence < 350) {
+					dude.peaks = [50, 45, 40, 35, 30, 0, 0, 0];
+					turblence = 1;
+					dude.zgsuggest = 1;
+				}
+				for(let z = starterOnZLoop; z < 8; z++) {
+					let scoreLine = dude.ESTIMATION + dude.peaks[z] * turblence;
+					dude.APPLIST.push([]);
+					for(let x = starterOnXLoop; x < high.length + 50; x++) {
+						if(high[x]) {
+							if(Number(high[x][hj ? 'ac2022' : 'd2022']) > scoreLine) continue;
+							else {
+								if(z == 0) dude.APPLIST[z] = [
+										high[x] || temporaryNewSchool,
+										high[x + 1] || temporaryNewSchool,
+										high[x + 2] || temporaryNewSchool,
+										high[x + 3] || temporaryNewSchool
+									];
+								else {
+									while(dude.APPLIST[z].length < 4) {
+										if(high[x]) {
+											if(dude.APPLIST[z - 1].indexOf(high[x]) == -1 || x < 4) dude.APPLIST[z].push(high[x]);
+											x++;
+										} else {
+											dude.APPLIST[z].push(temporaryNewSchool);
+											break;
+										}
+									}
+								}
+							}
+						} else dude.APPLIST[z].push(temporaryNewSchool);
+						starterOnXLoop = x + 1;
 						break;
 					}
 				}
 			}
+		}
+		function putNewSchoolOnThere(ul) {
+			for(let z = 0; z < temporaryNewSchool.length; z++) {
+				choice.appendChild(elt('li', {className: 'one-school'}, temporaryNewSchool[z]));
+			}
+		}
+		function putStuffOnTheScreen() {
+			let list = elt('ul', {id: 'applist'});
+			for(let z = 0; z < dude.APPLIST.length; z++) {
+				list.appendChild(elt('li', {className: 'one-choice'}, `第${numberToCharacter[z]}志愿建议（可从以下学校中选择一项）`));
+				let choice = elt('ul', {className: 'choicelist'});
+				for(let x = 0; x < dude.APPLIST[z].length; x++) {
+					if(dude.APPLIST[z][x] == temporaryNewSchool) {
+						putNewSchoolOnThere(choice);
+					} else {
+						choice.appendChild(elt('li', {className: 'one-school'}, dude.APPLIST[z][x].name));
+					}
+				}
+				list.appendChild(choice);
+			}
+			document.getElementById('results').appendChild(list);
 		}
 		window.onload = function() {
 			window.dude = {};
 			getDudeInfo();
 			estimateScore(dude.estscore);
 			estimateHighSchool(dude.hj, dude.sl);
+			putStuffOnTheScreen();
+			// if(dude.xinYi) calculateXinYi(dude.xinYi);
 		};
+		function elt(type,props,...children){let dom=document.createElement(type);if(props)Object.assign(dom,props);for(let child of children){if(typeof child!="string")dom.appendChild(child);else dom.appendChild(document.createTextNode(child));}return(dom);}
 	</script>
 </body>
 </html>
