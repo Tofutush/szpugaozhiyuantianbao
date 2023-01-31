@@ -3,6 +3,36 @@
 <head>
 	<title>填表！！！深圳市中考普通高中志愿填报建议</title>
 	<style>
+		html {
+			width: 100%;
+		}
+		body {
+			width: 100%;
+			font-size: 24px;
+			margin: 0;
+		}
+		form {
+			border-color: #000;
+			margin: 0;
+		}
+		input, select {
+			font-size: 24px;
+		}
+		button {
+			font-size: 48px;
+			color: #000;
+			background-color: #fff;
+			border: 10px solid #008282;
+			border-radius: 10px;
+			padding: 10px;
+		}
+		.block {
+			border-width: 10px;
+			border-style: solid;
+			border-radius: 10px;
+			padding: 10px;
+			margin: 10px 0;
+		}
 		.star {
 			color: red;
 			font-weight: bold;
@@ -11,33 +41,39 @@
 </head>
 <body>
 	<p>以下项目打星号的为必填，请核实信息，以免造成不必要的误差。</p>
-	<form method="get" action="dude.html">
-		<p>学校名称：<select id="school" name="school">
-			<!--<option value="nice">a nice school</option>
-			<option value="normal">a normal school</option>
-			<option value="lame">a lame school</option>
-			<option value="new">a new school</option>-->
-		</select></p>
-		<p><sup class="star">*</sup>户籍：<select name="hj">
-			<option value="1">深户（AC类）</option>
-			<option value="0">非深户（D类）</option>
-		</select></p>
-		<p><sup class="star">*</sup>是否愿意报名私立学校：<select name="sl">
-			<option value="1">不，我只上公立</option>
-			<option value="0">老铁没毛病</option>
-		</select></p>
-		<p><sup class="star">*</sup>三次模拟考试成绩（若还没考完全部三次，就拿最近的大规模考试来凑）</p>
-		<p>一模成绩：<input name="first-score" type="number"/>
-		一模全校排名：<input name="first-place" type="number"/></p>
-		<p>二模成绩：<input name="second-score" type="number"/>
-		二模全校排名：<input name="second-place" type="number"/></p>
-		<p>三模成绩：<input name="third-score" type="number"/>
-		三模全校排名：<input name="third-place" type="number"/></p>
-		<p><sup class="star">*</sup>年级参与中考总人数：<input name="people" type="number"/></p>
-		<p>体育中考成绩（若还没考就拿最近成绩或者预估成绩凑）（模考成绩已经包括体育就别填）：<input name="pe" type="number"/></p>
-		<p>预估中考成绩（仅供参考，但拜托别瞎估）：<input name="estscore" type="number"/></p>
-		<p>自己心仪的高中（仅供参考，但拜托别瞎填）：<select id="xinyi" name="xinyi"><option value="">无</option></select></p>
-		<button type="submit">确认</button>
+	<form class="block" method="get" action="dude.html" style="margin:10px">
+		<div class="block" style="border-color:#a10000">
+			<p>学校名称：<select id="school" name="school"></select></p>
+		</div>
+		<div class="block" style="border-color:#a15000">
+			<p><sup class="star">*</sup>户籍：<select name="hj">
+				<option value="1">深户（AC类）</option>
+				<option value="0">非深户（D类）</option>
+			</select></p>
+			<p><sup class="star">*</sup>是否愿意报名私立学校：<select name="sl">
+				<option value="1">不，我只上公立</option>
+				<option value="0">老铁没毛病</option>
+			</select></p>
+		</div>
+		<div class="block" style="border-color:#a1a100">
+			<p><sup class="star">*</sup>三次模拟考试成绩以及排名</p>
+			<p>一模成绩：<input name="first-score" type="number"/>
+			一模全校排名：<input name="first-place" type="number"/></p>
+			<p>二模成绩：<input name="second-score" type="number"/>
+			二模全校排名：<input name="second-place" type="number"/></p>
+			<p>三模成绩：<input name="third-score" type="number"/>
+			三模全校排名：<input name="third-place" type="number"/></p>
+			<p>注意！若以上的成绩已经包括体育成绩，那就不要填下面的“体育中考成绩”一栏！若成绩只有文化科，那就将体育成绩（50分满分）填进去！</p>
+			<p>体育中考成绩：<input name="pe" type="number"/></p>
+		</div>
+		<div class="block" style="border-color:#426600">
+			<p><sup class="star">*</sup>年级参与中考总人数：<input name="people" type="number"/></p>
+		</div>
+		<div class="block" style="border-color:#008142">
+			<p>预估中考成绩（仅供参考，但拜托别瞎估）：<input name="estscore" type="number"/></p>
+			<p>自己心仪的高中（仅供参考，但拜托别瞎填）：<select id="xinyi" name="xinyi"><option value="">无</option></select></p>
+		</div>
+		<button type="submit">确认并提交</button>
 	</form>
 	<script type="text/javascript" src="middleschool.json"></script>
 	<script type="text/javascript" src="highschool.json"></script>
