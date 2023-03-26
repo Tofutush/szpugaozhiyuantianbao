@@ -27,11 +27,12 @@
 </head>
 <body>
 	<div id="results" class="block" style="border-color:#000;margin:10px"></div>
-	<div id="slsuggest" class="block suggest">以朋友目前的成绩，仅填报公立高中可能会有一定落空的风险，建议填报一些私立学校！请<a href="../szpugaozhiyuantianbao">返回到刚才页面</a>并在“是否愿意报名私立学校”一栏选择“老铁没毛病”！</div>
+	<div id="slsuggest" class="block suggest">以朋友目前的成绩，仅填报公立高中可能会有一定落空的风险，建议填报一些私立学校！请<a href="../szpugaozhiyuantianbao">返回到刚才页面</a>并在“是否愿意报名私立学校”一栏选择“可以上私立”！</div>
 	<div id="zgsuggest" class="block suggest">以朋友目前的成绩，仅填报普通高中可能会有一定落空的风险，建议填报一些职业高中！</div>
+	<div id="back" class="block" style="border-color:#000;margin:10px"><a href="index.html">返回</a></div>
 	<div id="disclaimer" class="block" style="border-color:#76003b;margin:10px">
 		<h1>免责声明</h1>
-		<p>朋友们，我（Tofutush / 娄庄钉子户）做的这个<b>深圳市中考普通高中志愿填报建议</b>，就像名字里说的一样，是<b>建议</b>！此程序并不完美，也不能完全代替填报中考志愿的过程！也就是怎么滴，朋友们要是因为采取这些建议而导致中考滑档、咬到舌头、鞋带松开等难以人为预测的意外发生，本人（Tofutush / 娄庄钉子户）和主持网页的平台 GitHub Pages 都概不负责。</p>
+		<p>朋友们，我做的这个<b>深圳市中考普通高中志愿填报建议</b>，就像名字里说的一样，是<b>建议</b>！此程序并不完美，也不能完全代替填报中考志愿的过程！也就是怎么滴，朋友们要是因为采取这些建议而导致中考滑档、咬到舌头、鞋带松开等难以人为预测的意外发生，本人和主持网页的平台 GitHub Pages 都概不负责。</p>
 		<p>填报中考志愿是一项很重要且难度很大的任务！当年我填志愿时死了很多脑细胞，挺可惜的（虽然我在写这个程序时也死了很多脑细胞呵呵呵）……此程序目的在于给朋友们指明方向，在填志愿上能尽量避免踩坑！</p>
 		<p>面临中考的朋友们不用紧张！</p>
 		<ul>
@@ -60,7 +61,6 @@
 			dude.hj = Number(url.get('hj')) // 1 - sz, 0 - nonsz
 			dude.sl = Number(url.get('sl')); // 1 - gl, 2 - sl
 			dude.estscore = Number(url.get('estscore'));
-			dude.xinYi = Number(url.get('xinyi'));
 			dude.scoreMean = (dude.firstScore + dude.secondScore + dude.thirdScore) / 3;
 			dude.placeMean = (dude.firstPlace + dude.secondPlace + dude.thirdPlace) / 3;
 			dude.placeStandardDev = Math.sqrt((Math.pow((dude.firstPlace - dude.placeMean), 2) + Math.pow((dude.secondPlace - dude.placeMean), 2) + Math.pow((dude.thirdPlace - dude.placeMean), 2)) / 3);
@@ -194,7 +194,6 @@
 			estimateScore(dude.estscore);
 			estimateHighSchool(dude.hj, dude.sl);
 			putStuffOnTheScreen();
-			// if(dude.xinYi) calculateXinYi(dude.xinYi);
 		};
 		function elt(type,props,...children){let dom=document.createElement(type);if(props)Object.assign(dom,props);for(let child of children){if(typeof child!="string")dom.appendChild(child);else dom.appendChild(document.createTextNode(child));}return(dom);}
 	</script>
