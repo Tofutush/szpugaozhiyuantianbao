@@ -25,14 +25,14 @@
 		}
 	</style>
 	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z260VDST9W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-8C6SGKNN8T"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
-  gtag('config', 'G-Z260VDST9W');
-</script>
+		gtag('config', 'G-8C6SGKNN8T');
+	</script>
 </head>
 <body>
 	<div id="results" class="block" style="border-color:#000;margin:10px"></div>
@@ -84,7 +84,8 @@
 			}
 		}
 		function estimateHighSchool(hj, sl) {
-			dude.peaks = [15, 10, 5, 0, -5, -15, -30, -60];
+			// dude.peaks = [15, 10, 5, 0, -5, -15, -30, -60];
+			dude.peaks = [30, 25, 20, 15, 10, 5, 0, -5, -15, -30, -60, -80];
 			let turblence = dude.placeStandardDev / 10;
 			dude.APPLIST = [];
 			let starterOnZLoop = 0, starterOnXLoop = 0;
@@ -95,10 +96,10 @@
 			}
 			if(sl) { // 只上公立
 				if(dude.ESTIMATION - 60 * turblence < 440) { // score is too low
-					dude.peaks = [50, 45, 40, 35, 30, 0, 0, 0];
+					dude.peaks = [60, 50, 45, 40, 35, 30, 25, 20, 10, 0, 0, 0];
 					turblence = 1; // dang low we dont even need this anymore
 					dude.slsuggest = 1;
-				}
+				};
 				// okay this is the actual loop that fills dude.APPLIST
 				// starterOnZLoop and starterOnXLoop are both used for score too high scenario, to skip the first four
 				for(let z = starterOnZLoop; z < 8; z++) {
@@ -133,7 +134,8 @@
 				}
 			} else { // 上私立
 				if(dude.ESTIMATION - 60 * turblence < 350) {
-					dude.peaks = [50, 45, 40, 35, 30, 0, 0, 0];
+					// dude.peaks = [50, 45, 40, 35, 30, 0, 0, 0];
+					dude.peaks = [60, 50, 45, 40, 35, 30, 25, 20, 10, 0, 0, 0];
 					turblence = 1;
 					dude.zgsuggest = 1;
 				}
