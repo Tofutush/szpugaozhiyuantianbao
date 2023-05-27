@@ -117,7 +117,7 @@ function estimateScore(esti) {
 function estimateHighSchool(hj, sl) {
 	// dude.peaks = [15, 10, 5, 0, -5, -15, -30, -60];
 	dude.peaks = [30, 25, 20, 15, 10, 5, 0, -5, -15, -30, -60, -80];
-	let turblence = dude.placeStandardDev / 10;
+	let turblence = dude.placeStandardDev / 20;
 	dude.APPLIST = [];
 	let starterOnZLoop = 0, starterOnXLoop = 0;
 	if(dude.ESTIMATION - 5 * turblence > Number(highgl[3][hj ? 'ac2022' : 'd2022'])) { // if score is really high
