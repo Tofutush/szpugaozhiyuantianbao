@@ -2068,6 +2068,12 @@ window.midd = [[],
       "place": 7,
       "aczb": 1,
       "num": 40
+    },
+    {
+      "name": "邢市中学",
+      "place": 7,
+      "aczb": 1,
+        "num": 41
     }],
     [{
       "name": "坪山中学",
