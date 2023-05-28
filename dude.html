@@ -212,7 +212,7 @@ function putStuffOnTheScreen() {
 	let list = document.getElementById('results');
 	for(let z = 0; z < dude.APPLIST.length; z++) {
 		let oneChoice = elt('div', {className: 'block', style: `border-color:${rainbow[z]}`});
-		oneChoice.appendChild(elt('p', {}, `第${numberToCharacter[z]}志愿建议（可从以下建议中选择一项）` + (z == 1 ? '第一志愿需要配合签约情况和指标生填报，请再慎重考虑！' : '')));
+		oneChoice.appendChild(elt('p', {}, `第${numberToCharacter[z]}志愿建议（可从以下建议中选择一项）` + (z == 0 ? '第一志愿需要配合签约情况和指标生填报，请再慎重考虑！' : '')));
 		let choice = elt('ul', {className: 'choicelist'});
 		for(let x = 0; x < dude.APPLIST[z].length; x++) {
 			if(dude.APPLIST[z][x] == temporaryNewSchool) {
